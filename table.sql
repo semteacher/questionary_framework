@@ -9,7 +9,7 @@
 -- Структура таблиці `form_pregnancycdss_diseases`
 --
 
-CREATE TABLE IF NOT EXISTS `form_pregnancycdss_diseases` (
+CREATE TABLE IF NOT EXISTS `form_qstframework_diseases` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `dis_name` varchar(100) COLLATE utf8_general_ci DEFAULT NULL,
   `dis_note` varchar(255) COLLATE utf8_general_ci DEFAULT NULL,
@@ -19,20 +19,20 @@ CREATE TABLE IF NOT EXISTS `form_pregnancycdss_diseases` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=3 ;
 
 --
--- Дамп даних таблиці `form_pregnancycdss_diseases`
+-- Дамп даних таблиці `form_qstframework_diseases`
 --
 
-INSERT INTO `form_pregnancycdss_diseases` (`id`, `dis_name`, `dis_note`, `dis_icd10`, `p`) VALUES
+INSERT INTO `form_qstframework_diseases` (`id`, `dis_name`, `dis_note`, `dis_icd10`, `p`) VALUES
 (1, 'Своєчасні роди', NULL, NULL, 0.5),
 (2, 'Передчасні роди', NULL, NULL, 0.5);
 
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `form_pregnancycdss_diseases_sympt_opt`
+-- Структура таблиці `form_qstframework_diseases_sympt_opt`
 --
 
-CREATE TABLE IF NOT EXISTS `form_pregnancycdss_diseases_sympt_opt` (
+CREATE TABLE IF NOT EXISTS `form_qstframework_diseases_sympt_opt` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `id_diseases` int(11) DEFAULT '0',
   `id_sympt_opt` bigint(20) DEFAULT '0',
@@ -44,10 +44,10 @@ CREATE TABLE IF NOT EXISTS `form_pregnancycdss_diseases_sympt_opt` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=205 ;
 
 --
--- Дамп даних таблиці `form_pregnancycdss_diseases_sympt_opt`
+-- Дамп даних таблиці `form_qstframework_diseases_sympt_opt`
 --
 
-INSERT INTO `form_pregnancycdss_diseases_sympt_opt` (`id`, `id_diseases`, `id_sympt_opt`, `py`, `pn`) VALUES
+INSERT INTO `form_qstframework_diseases_sympt_opt` (`id`, `id_diseases`, `id_sympt_opt`, `py`, `pn`) VALUES
 (1, 2, 1, 0.999, 0),
 (2, 1, 2, 0.999, 0),
 (3, 2, 4, 0.95, 0),
@@ -251,10 +251,10 @@ INSERT INTO `form_pregnancycdss_diseases_sympt_opt` (`id`, `id_diseases`, `id_sy
 
 -- --------------------------------------------------------
 --
--- Структура таблиці `form_pregnancycdss_sympt_category`
+-- Структура таблиці `form_qstframework_sympt_category`
 --
 
-CREATE TABLE IF NOT EXISTS `form_pregnancycdss_sympt_category` (
+CREATE TABLE IF NOT EXISTS `form_qstframework_sympt_category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `cat_name` varchar(100) COLLATE utf8_general_ci DEFAULT NULL,
   `cat_notes` varchar(150) COLLATE utf8_general_ci DEFAULT NULL,
@@ -263,10 +263,10 @@ CREATE TABLE IF NOT EXISTS `form_pregnancycdss_sympt_category` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=8 ;
 
 --
--- Дамп даних таблиці `form_pregnancycdss_sympt_category`
+-- Дамп даних таблиці `form_qstframework_sympt_category`
 --
 
-INSERT INTO `form_pregnancycdss_sympt_category` (`id`, `cat_name`, `cat_notes`, `is_selected`) VALUES
+INSERT INTO `form_qstframework_sympt_category` (`id`, `cat_name`, `cat_notes`, `is_selected`) VALUES
 (1, 'Анкетні дані вагітної', NULL, 1),
 (2, 'Стан при поступленні в стаціонар', NULL, 1),
 (3, 'Перебіг попередніх пологів', NULL, 1),
@@ -278,10 +278,10 @@ INSERT INTO `form_pregnancycdss_sympt_category` (`id`, `cat_name`, `cat_notes`, 
 -- --------------------------------------------------------
 
 --
--- Структура таблиці `form_pregnancycdss_symptoms`
+-- Структура таблиці `form_qstframework_symptoms`
 --
 
-CREATE TABLE IF NOT EXISTS `form_pregnancycdss_symptoms` (
+CREATE TABLE IF NOT EXISTS `form_qstframework_symptoms` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `symp_name` varchar(50) COLLATE utf8_general_ci DEFAULT NULL,
   `symp_notes` varchar(100) COLLATE utf8_general_ci DEFAULT NULL,
@@ -294,10 +294,10 @@ CREATE TABLE IF NOT EXISTS `form_pregnancycdss_symptoms` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=73 ;
 
 --
--- Дамп даних таблиці `form_pregnancycdss_symptoms`
+-- Дамп даних таблиці `form_qstframework_symptoms`
 --
 
-INSERT INTO `form_pregnancycdss_symptoms` (`id`, `symp_name`, `symp_notes`, `id_order`, `id_category`, `is_multi`) VALUES
+INSERT INTO `form_qstframework_symptoms` (`id`, `symp_name`, `symp_notes`, `id_order`, `id_category`, `is_multi`) VALUES
 (1, '1.1. Вік жінки', NULL, 1, 1, 0),
 (2, '1.2. Сезон року', NULL, 2, 1, 0),
 (3, '1.3. Адреса проживання', NULL, 3, 1, 0),
@@ -375,10 +375,10 @@ INSERT INTO `form_pregnancycdss_symptoms` (`id`, `symp_name`, `symp_notes`, `id_
 
 
 --
--- Структура таблиці `form_pregnancycdss_sympt_options`
+-- Структура таблиці `form_qstframework_sympt_options`
 --
 
-CREATE TABLE IF NOT EXISTS `form_pregnancycdss_sympt_options` (
+CREATE TABLE IF NOT EXISTS `form_qstframework_sympt_options` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `id_symptom` bigint(20) DEFAULT '0',
   `opt_name` varchar(50) COLLATE utf8_general_ci DEFAULT NULL,
@@ -390,10 +390,10 @@ CREATE TABLE IF NOT EXISTS `form_pregnancycdss_sympt_options` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=238 ;
 
 --
--- Дамп даних таблиці `form_pregnancycdss_sympt_options`
+-- Дамп даних таблиці `form_qstframework_sympt_options`
 --
 
-INSERT INTO `form_pregnancycdss_sympt_options` (`id`, `id_symptom`, `opt_name`, `id_order`, `is_selected`) VALUES
+INSERT INTO `form_qstframework_sympt_options` (`id`, `id_symptom`, `opt_name`, `id_order`, `is_selected`) VALUES
 (1, 1, '1. до 18 років', 0, 1),
 (2, 1, '2. 19-25', 0, 1),
 (3, 1, '3. 26-30', 0, 1),
@@ -632,10 +632,10 @@ INSERT INTO `form_pregnancycdss_sympt_options` (`id`, `id_symptom`, `opt_name`, 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `form_pregnancycdss_patient_exam`
+-- Table structure for table `form_qstframework_patient_exam`
 --
 
-CREATE TABLE IF NOT EXISTS `form_pregnancycdss_patient_exam` (
+CREATE TABLE IF NOT EXISTS `form_qstframework_patient_exam` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   date datetime default NULL,
   `pid` bigint(20) DEFAULT '0',
@@ -662,10 +662,10 @@ CREATE TABLE IF NOT EXISTS `form_pregnancycdss_patient_exam` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `form_pregnancycdss_symptopt_by_patient`
+-- Table structure for table `form_qstframework_symptopt_by_patient`
 --
 
-CREATE TABLE IF NOT EXISTS `form_pregnancycdss_symptopt_by_patient` (
+CREATE TABLE IF NOT EXISTS `form_qstframework_symptopt_by_patient` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `id_exam` bigint(20) DEFAULT '0',
   `pid` bigint(20) DEFAULT '0',
@@ -695,29 +695,29 @@ CREATE TABLE IF NOT EXISTS `form_pregnancycdss_symptopt_by_patient` (
 --
 
 --
--- Constraints for table `form_pregnancycdss_symptopt_by_patient`
+-- Constraints for table `form_qstframework_symptopt_by_patient`
 --
-ALTER TABLE `form_pregnancycdss_symptopt_by_patient`
-  ADD CONSTRAINT `form_pregnancycdss_symptopt_by_patient_ibfk_1` FOREIGN KEY (`id_exam`) REFERENCES `form_pregnancycdss_patient_exam` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `form_qstframework_symptopt_by_patient`
+  ADD CONSTRAINT `form_qstframework_symptopt_by_patient_ibfk_1` FOREIGN KEY (`id_exam`) REFERENCES `form_qstframework_patient_exam` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
   
 --
--- Constraints for table `form_pregnancycdss_diseases_sympt_opt`
+-- Constraints for table `form_qstframework_diseases_sympt_opt`
 --
-ALTER TABLE `form_pregnancycdss_diseases_sympt_opt`
-  ADD CONSTRAINT `form_diseases_sympt_opt_ibfk_1` FOREIGN KEY (`id_diseases`) REFERENCES `form_pregnancycdss_diseases` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `form_diseases_sympt_opt_ibfk_2` FOREIGN KEY (`id_sympt_opt`) REFERENCES `form_pregnancycdss_sympt_options` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE `form_qstframework_diseases_sympt_opt`
+  ADD CONSTRAINT `form_diseases_sympt_opt_ibfk_1` FOREIGN KEY (`id_diseases`) REFERENCES `form_qstframework_diseases` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `form_diseases_sympt_opt_ibfk_2` FOREIGN KEY (`id_sympt_opt`) REFERENCES `form_qstframework_sympt_options` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
--- Constraints for table `form_pregnancycdss_symptoms`
+-- Constraints for table `form_qstframework_symptoms`
 --
-ALTER TABLE `form_pregnancycdss_symptoms`
-  ADD CONSTRAINT `form_symptoms_ibfk_1` FOREIGN KEY (`id_category`) REFERENCES `form_pregnancycdss_sympt_category` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE `form_qstframework_symptoms`
+  ADD CONSTRAINT `form_symptoms_ibfk_1` FOREIGN KEY (`id_category`) REFERENCES `form_qstframework_sympt_category` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
--- Constraints for table `form_pregnancycdss_sympt_options`
+-- Constraints for table `form_qstframework_sympt_options`
 --
-ALTER TABLE `form_pregnancycdss_sympt_options`
-  ADD CONSTRAINT `form_sympt_options_ibfk_1` FOREIGN KEY (`id_symptom`) REFERENCES `form_pregnancycdss_symptoms` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE `form_qstframework_sympt_options`
+  ADD CONSTRAINT `form_sympt_options_ibfk_1` FOREIGN KEY (`id_symptom`) REFERENCES `form_qstframework_symptoms` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
