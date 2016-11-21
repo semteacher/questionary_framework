@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `form_qstframework_diseases` (
   `weight` int(11) DEFAULT '0',
   `p` float DEFAULT '0',
   PRIMARY KEY (`id`),
-  KEY `qstframework_diseases_id_form_ndx` (`id_form`),
+  KEY `qstframework_diseases_id_form_ndx` (`id_form`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=3 ;
 
 --
@@ -289,7 +289,7 @@ CREATE TABLE IF NOT EXISTS `form_qstframework_sympt_category` (
 -- Дамп даних таблиці `form_qstframework_sympt_category`
 --
 
-INSERT INTO `form_qstframework_sympt_category` (`id`, `cat_name`, `cat_notes`, `is_selected`) VALUES
+INSERT INTO `form_qstframework_sympt_category` (`id`, `id_form`, `cat_name`, `cat_notes`, `is_selected`) VALUES
 (1, 1, 'Анкетні дані вагітної', NULL, 1),
 (2, 1, 'Стан при поступленні в стаціонар', NULL, 1),
 (3, 1, 'Перебіг попередніх пологів', NULL, 1),
@@ -771,7 +771,7 @@ ALTER TABLE `form_qstframework_diseases_sympt_opt`
 -- Constraints for table `form_qstframework_sympt_category`
 --
 ALTER TABLE `form_qstframework_sympt_category`
-  ADD CONSTRAINT `form_qstframework_sympt_category_ibfk_1` FOREIGN KEY (`id_form`) REFERENCES `form_qstframework_patient_exam_forms` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+  ADD CONSTRAINT `form_qstframework_sympt_category_ibfk_1` FOREIGN KEY (`id_form`) REFERENCES `form_qstframework_exam_forms` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Constraints for table `form_qstframework_symptoms`
