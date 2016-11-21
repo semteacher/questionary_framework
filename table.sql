@@ -4,30 +4,22 @@
 /*!40101 SET NAMES utf8 */;
 -- --------------------------------------------------------
 --
--- Структура таблиці `form_qstframework_forms`
+-- Структура таблиці `form_qstframework_exam_forms`
 --
 
-CREATE TABLE IF NOT EXISTS `form_qstframework_patient_exam_forms` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS `form_qstframework_exam_forms` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `form_name` varchar(100) COLLATE utf8_general_ci DEFAULT NULL,
   `form_purpose` varchar(250) COLLATE utf8_general_ci DEFAULT NULL,
   `is_visible` tinyint(4) NOT NULL DEFAULT '1',
-  `expect_disease` varchar(255) DEFAULT NULL,
-  `diseases` text CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
-  `id_finaldisease` int(11) DEFAULT '0',
-  `finaldisease` varchar(255) DEFAULT NULL,
-  `finaldisease_icd10` varchar(255) DEFAULT NULL,
-  `id_decisiontree_decease` int(11) DEFAULT NULL,
-  `diseases_tree` text CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
-  `decisiontree_img` text CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=2 ;
 
 --
--- Дамп даних таблиці `form_qstframework_forms`
+-- Дамп даних таблиці `form_qstframework_exam_forms`
 --
 
-INSERT INTO `form_qstframework_patient_exam_forms` (`id`, `form_name`, `form_purpose`, `is_visible`) VALUES
+INSERT INTO `form_qstframework_exam_forms` (`id`, `form_name`, `form_purpose`, `is_visible`) VALUES
 (1, 'Діагностика невиношування вагітності', NULL, 1);
 -- --------------------------------------------------------
 
@@ -36,8 +28,8 @@ INSERT INTO `form_qstframework_patient_exam_forms` (`id`, `form_name`, `form_pur
 --
 
 CREATE TABLE IF NOT EXISTS `form_qstframework_diseases` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_form` int(11) DEFAULT '0',
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `id_form` bigint(20) DEFAULT '0',
   `dis_name` varchar(100) COLLATE utf8_general_ci DEFAULT NULL,
   `dis_note` varchar(255) COLLATE utf8_general_ci DEFAULT NULL,
   `dis_icd10` varchar(255) COLLATE utf8_general_ci DEFAULT NULL,
@@ -63,7 +55,7 @@ INSERT INTO `form_qstframework_diseases` (`id`, `id_form`, `dis_name`, `dis_note
 
 CREATE TABLE IF NOT EXISTS `form_qstframework_diseases_sympt_opt` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `id_diseases` int(11) DEFAULT '0',
+  `id_diseases` bigint(20) DEFAULT '0',
   `id_sympt_opt` bigint(20) DEFAULT '0',
   `weight` int(11) DEFAULT '0',
   `py` float DEFAULT '0',
@@ -285,8 +277,8 @@ INSERT INTO `form_qstframework_diseases_sympt_opt` (`id`, `id_diseases`, `id_sym
 --
 
 CREATE TABLE IF NOT EXISTS `form_qstframework_sympt_category` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_form` int(11) DEFAULT '0',
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `id_form` bigint(20) DEFAULT '0',
   `cat_name` varchar(100) COLLATE utf8_general_ci DEFAULT NULL,
   `cat_notes` varchar(150) COLLATE utf8_general_ci DEFAULT NULL,
   `is_selected` tinyint(4) NOT NULL DEFAULT '1',
@@ -317,7 +309,7 @@ CREATE TABLE IF NOT EXISTS `form_qstframework_symptoms` (
   `symp_name` varchar(50) COLLATE utf8_general_ci DEFAULT NULL,
   `symp_notes` varchar(100) COLLATE utf8_general_ci DEFAULT NULL,
   `id_order` int(11) DEFAULT '0',
-  `id_category` int(11) DEFAULT '1',
+  `id_category` bigint(20) DEFAULT '1',
   `is_typeof` tinyint(4) NOT NULL DEFAULT '0',
   `is_selected` tinyint(4) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
@@ -667,7 +659,7 @@ INSERT INTO `form_qstframework_sympt_options` (`id`, `id_symptom`, `opt_name`, `
 
 CREATE TABLE IF NOT EXISTS `form_qstframework_instance` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  date datetime default NULL,
+  `date` datetime default NULL,
   `pid` bigint(20) DEFAULT '0',
   `user` varchar(255) DEFAULT NULL,
   `groupname` varchar(255) DEFAULT NULL,
@@ -681,6 +673,39 @@ CREATE TABLE IF NOT EXISTS `form_qstframework_instance` (
 
 
 -- --------------------------------------------------------
+--
+-- Структура таблиці `form_qstframework_forms_per_instance`
+--
+
+CREATE TABLE IF NOT EXISTS `form_qstframework_forms_per_instance` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `id_instance` bigint(20) DEFAULT '0',
+  `id_form` bigint(20) DEFAULT '0',
+  `date` datetime default NULL,
+  `pid` bigint(20) DEFAULT '0',
+  `user` varchar(255) DEFAULT NULL,
+  `groupname` varchar(255) DEFAULT NULL,
+  `authorized` tinyint(4) DEFAULT NULL,
+  `activity` tinyint(4) DEFAULT NULL,
+  `encounter` bigint(20) DEFAULT NULL,
+  `createuser` varchar(255) DEFAULT NULL,
+  `createdate` datetime DEFAULT NULL,  
+  `is_visible` tinyint(4) NOT NULL DEFAULT '1',
+  `is_deleted` tinyint(4) NOT NULL DEFAULT '0',
+  `expect_disease` varchar(255) DEFAULT NULL,
+  `diseases` text CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `id_finaldisease` int(11) DEFAULT '0',
+  `finaldisease` varchar(255) DEFAULT NULL,
+  `finaldisease_icd10` varchar(255) DEFAULT NULL,
+  `id_decisiontree_decease` int(11) DEFAULT NULL,
+  `diseases_tree` text CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `decisiontree_img` text CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `qstframework_forms_per_instance_id_instance_ndx` (`id_instance`),
+  KEY `qstframework_forms_per_instance_id_form_ndx` (`id_form`)  
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=2 ;
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `form_qstframework_symptopt_by_patient`
@@ -688,24 +713,24 @@ CREATE TABLE IF NOT EXISTS `form_qstframework_instance` (
 
 CREATE TABLE IF NOT EXISTS `form_qstframework_symptopt_patient_exam_form_data` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `id_form` bigint(20) DEFAULT '0',
+  `id_form_instance` bigint(20) DEFAULT '0',
   `pid` bigint(20) DEFAULT '0',
   `user` varchar(255) default NULL,
-  `id_sympt_cat` int(11) DEFAULT '0',
+  `id_sympt_cat` bigint(20) DEFAULT '0',
   `id_symptom` bigint(20) DEFAULT '0',
   `id_sympt_opt` bigint(20) DEFAULT '0',
-  `id_diseases` int(11) DEFAULT '0',
+  `id_diseases` bigint(20) DEFAULT '0',
   `py` float DEFAULT '0',
   `pn` float DEFAULT '0',
   `weight` int(11) DEFAULT '0',  
   `id_order` int(11) DEFAULT '0',
   PRIMARY KEY (`id`),
-  KEY `qstframework_symptoms_by_patient_id_disease_ndx` (`id_diseases`),
-  KEY `qstframework_symptoms_by_patient_id_exam_ndx` (`id_form`),
-  KEY `qstframework_symptoms_by_patient_id_patient_ndx` (`pid`),
-  KEY `qstframework_symptoms_by_patient_id_sympt_cat_ndx` (`id_sympt_cat`),
-  KEY `qstframework_symptoms_by_patient_id_sympt_opt_ndx` (`id_sympt_opt`),
-  KEY `qstframework_symptoms_by_patient_id_symptom_ndx` (`id_symptom`)
+  KEY `qstframework_symptoms_patient_form_id_disease_ndx` (`id_diseases`),
+  KEY `qstframework_symptoms_patient_form_id_form_instance_ndx` (`id_form_instance`),
+  KEY `qstframework_symptoms_patient_form_id_patient_ndx` (`pid`),
+  KEY `qstframework_symptoms_patient_form_id_sympt_cat_ndx` (`id_sympt_cat`),
+  KEY `qstframework_symptoms_patient_form_id_sympt_opt_ndx` (`id_sympt_opt`),
+  KEY `qstframework_symptoms_patient_form_id_symptom_ndx` (`id_symptom`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1 ;
 
 
@@ -717,16 +742,23 @@ CREATE TABLE IF NOT EXISTS `form_qstframework_symptopt_patient_exam_form_data` (
 --
 
 --
--- Constraints for table `form_qstframework_symptopt_by_patient`
+-- Constraints for table `form_qstframework_symptopt_patient_exam_form_data`
+--
+ALTER TABLE `form_qstframework_forms_per_instance`
+  ADD CONSTRAINT `form_qstframework_forms_per_instance_ibfk_1` FOREIGN KEY (`id_instance`) REFERENCES `form_qstframework_instance` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `form_qstframework_forms_per_instance_ibfk_2` FOREIGN KEY (`id_form`) REFERENCES `form_qstframework_exam_forms` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+  
+--
+-- Constraints for table `form_qstframework_symptopt_patient_exam_form_data`
 --
 ALTER TABLE `form_qstframework_symptopt_patient_exam_form_data`
-  ADD CONSTRAINT `form_qstframework_symptopt_by_patient_ibfk_1` FOREIGN KEY (`id_form`) REFERENCES `form_qstframework_patient_exam` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `form_qstframework_symptopt_by_patient_ibfk_1` FOREIGN KEY (`id_form_instance`) REFERENCES `form_qstframework_forms_per_instance` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
   
 --
 -- Constraints for table `form_qstframework_diseases`
 --
 ALTER TABLE `form_qstframework_diseases`
-  ADD CONSTRAINT `form_qstframework_diseases_ibfk_1` FOREIGN KEY (`id_form`) REFERENCES `form_qstframework_patient_exam_forms` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;  
+  ADD CONSTRAINT `form_qstframework_diseases_ibfk_1` FOREIGN KEY (`id_form`) REFERENCES `form_qstframework_exam_forms` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;  
   
 --
 -- Constraints for table `form_qstframework_diseases_sympt_opt`
