@@ -2,7 +2,33 @@
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8 */;
+-- --------------------------------------------------------
+--
+-- Структура таблиці `form_qstframework_forms`
+--
 
+CREATE TABLE IF NOT EXISTS `form_qstframework_patient_exam_forms` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `form_name` varchar(100) COLLATE utf8_general_ci DEFAULT NULL,
+  `form_purpose` varchar(250) COLLATE utf8_general_ci DEFAULT NULL,
+  `is_visible` tinyint(4) NOT NULL DEFAULT '1',
+  `expect_disease` varchar(255) DEFAULT NULL,
+  `diseases` text CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `id_finaldisease` int(11) DEFAULT '0',
+  `finaldisease` varchar(255) DEFAULT NULL,
+  `finaldisease_icd10` varchar(255) DEFAULT NULL,
+  `id_decisiontree_decease` int(11) DEFAULT NULL,
+  `diseases_tree` text CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `decisiontree_img` text CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=2 ;
+
+--
+-- Дамп даних таблиці `form_qstframework_forms`
+--
+
+INSERT INTO `form_qstframework_patient_exam_forms` (`id`, `form_name`, `form_purpose`, `is_visible`) VALUES
+(1, 'Діагностика невиношування вагітності', NULL, 1);
 -- --------------------------------------------------------
 
 --
@@ -11,20 +37,23 @@
 
 CREATE TABLE IF NOT EXISTS `form_qstframework_diseases` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_form` int(11) DEFAULT '0',
   `dis_name` varchar(100) COLLATE utf8_general_ci DEFAULT NULL,
   `dis_note` varchar(255) COLLATE utf8_general_ci DEFAULT NULL,
   `dis_icd10` varchar(255) COLLATE utf8_general_ci DEFAULT NULL,
+  `weight` int(11) DEFAULT '0',
   `p` float DEFAULT '0',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `qstframework_diseases_id_form_ndx` (`id_form`),
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=3 ;
 
 --
 -- Дамп даних таблиці `form_qstframework_diseases`
 --
 
-INSERT INTO `form_qstframework_diseases` (`id`, `dis_name`, `dis_note`, `dis_icd10`, `p`) VALUES
-(1, 'Своєчасні роди', NULL, NULL, 0.5),
-(2, 'Передчасні роди', NULL, NULL, 0.5);
+INSERT INTO `form_qstframework_diseases` (`id`, `id_form`, `dis_name`, `dis_note`, `dis_icd10`, `weight`, `p`) VALUES
+(1, 1, 'Своєчасні роди', NULL, NULL, 0, 0.5),
+(2, 1, 'Передчасні роди', NULL, NULL, 0, 0.5);
 
 -- --------------------------------------------------------
 
@@ -36,218 +65,219 @@ CREATE TABLE IF NOT EXISTS `form_qstframework_diseases_sympt_opt` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `id_diseases` int(11) DEFAULT '0',
   `id_sympt_opt` bigint(20) DEFAULT '0',
+  `weight` int(11) DEFAULT '0',
   `py` float DEFAULT '0',
   `pn` float DEFAULT '0',
   PRIMARY KEY (`id`),
-  KEY `diseases_sympt_opt_id_diseases_ndx` (`id_diseases`),
-  KEY `diseases_sympt_opt_id_symptom_ndx` (`id_sympt_opt`)
+  KEY `qstframework_diseases_sympt_opt_id_diseases_ndx` (`id_diseases`),
+  KEY `qstframework_diseases_sympt_opt_id_symptom_ndx` (`id_sympt_opt`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=205 ;
 
 --
 -- Дамп даних таблиці `form_qstframework_diseases_sympt_opt`
 --
 
-INSERT INTO `form_qstframework_diseases_sympt_opt` (`id`, `id_diseases`, `id_sympt_opt`, `py`, `pn`) VALUES
-(1, 2, 1, 0.999, 0),
-(2, 1, 2, 0.999, 0),
-(3, 2, 4, 0.95, 0),
-(4, 2, 6, 0.99, 0),
-(5, 2, 5, 0.99, 0),
-(6, 2, 7, 0.999, 0),
-(7, 1, 9, 0.999, 0),
-(8, 1, 10, 0.999, 0),
-(9, 1, 13, 0.999, 0),
-(10, 2, 14, 0.999, 0),
-(11, 2, 15, 0.999, 0),
-(12, 2, 18, 0.999, 0),
-(14, 2, 19, 0.99, 0),
-(15, 1, 20, 0.999, 0),
-(16, 2, 21, 0.999, 0),
-(17, 2, 22, 0.95, 0),
-(18, 2, 23, 0.999, 0),
-(19, 2, 24, 0.99, 0),
-(20, 2, 25, 0.99, 0),
-(22, 2, 26, 0.99, 0),
-(23, 2, 28, 0.99, 0),
-(24, 2, 29, 0.999, 0),
-(25, 1, 30, 0.999, 0),
-(26, 2, 31, 0.999, 0),
-(29, 2, 34, 0.999, 0),
-(30, 2, 35, 0.999, 0),
-(31, 2, 38, 0.999, 0),
-(32, 1, 36, 0.999, 0),
-(33, 1, 37, 0.999, 0),
-(34, 2, 39, 0.95, 0),
-(35, 2, 43, 0.999, 0),
-(36, 2, 42, 0.999, 0),
-(37, 1, 41, 0.999, 0),
-(38, 1, 45, 0.999, 0),
-(39, 2, 46, 0.95, 0),
-(40, 2, 47, 0.999, 0),
-(41, 2, 48, 0.99, 0),
-(42, 1, 50, 0.999, 0),
-(43, 2, 51, 0.999, 0),
-(44, 2, 52, 0.999, 0),
-(45, 2, 53, 0.999, 0),
-(46, 2, 54, 0.999, 0),
-(47, 1, 55, 0.99, 0),
-(48, 2, 56, 0.95, 0),
-(49, 2, 57, 0.99, 0),
-(50, 2, 59, 0.99, 0),
-(51, 1, 61, 0.999, 0),
-(52, 2, 62, 0.999, 0),
-(53, 2, 63, 0.999, 0),
-(54, 1, 64, 0.999, 0),
-(55, 2, 65, 0.99, 0),
-(56, 2, 66, 0.999, 0),
-(57, 1, 67, 0.999, 0),
-(58, 1, 68, 0.999, 0),
-(59, 1, 69, 0.99, 0),
-(60, 2, 70, 0.999, 0),
-(61, 1, 71, 0.999, 0),
-(62, 1, 72, 0.999, 0),
-(63, 2, 73, 0.999, 0),
-(64, 1, 74, 0.999, 0),
-(65, 2, 75, 0.999, 0),
-(66, 2, 76, 0.999, 0),
-(67, 1, 77, 0.999, 0),
-(68, 1, 78, 0.999, 0),
-(69, 1, 79, 0.95, 0),
-(70, 1, 80, 0.95, 0),
-(71, 2, 81, 0.999, 0),
-(72, 2, 82, 0.999, 0),
-(73, 1, 83, 0.95, 0),
-(74, 2, 84, 0.95, 0),
-(75, 2, 87, 0.999, 0),
-(76, 2, 86, 0.999, 0),
-(77, 1, 85, 0.999, 0),
-(78, 1, 88, 0.99, 0),
-(79, 2, 89, 0.99, 0),
-(80, 2, 90, 0.999, 0),
-(81, 1, 91, 0.999, 0),
-(82, 2, 94, 0.95, 0),
-(83, 1, 92, 0.999, 0),
-(84, 2, 93, 0.99, 0),
-(85, 2, 96, 0.999, 0),
-(86, 2, 97, 0.999, 0),
-(87, 2, 98, 0.95, 0),
-(88, 1, 99, 0.95, 0),
-(89, 2, 100, 0.95, 0),
-(90, 1, 101, 0.999, 0),
-(91, 2, 102, 0.999, 0),
-(92, 1, 103, 0.99, 0),
-(93, 1, 104, 0.99, 0),
-(94, 2, 105, 0.999, 0),
-(95, 2, 108, 0.95, 0),
-(96, 2, 109, 0.999, 0),
-(97, 1, 110, 0.999, 0),
-(98, 2, 111, 0.999, 0),
-(99, 2, 112, 0.95, 0),
-(100, 1, 113, 0.99, 0),
-(101, 2, 114, 0.99, 0),
-(102, 1, 115, 0.999, 0),
-(103, 2, 116, 0.999, 0),
-(104, 1, 118, 0.999, 0),
-(105, 2, 119, 0.999, 0),
-(106, 2, 120, 0.95, 0),
-(107, 1, 121, 0.95, 0),
-(108, 1, 122, 0.999, 0),
-(109, 2, 123, 0.999, 0),
-(110, 2, 124, 0.999, 0),
-(111, 2, 125, 0.999, 0),
-(112, 1, 128, 0.999, 0),
-(113, 1, 130, 0.99, 0),
-(114, 2, 132, 0.999, 0),
-(115, 1, 133, 0.999, 0),
-(116, 1, 134, 0.999, 0),
-(117, 2, 135, 0.999, 0),
-(118, 2, 136, 0.99, 0),
-(119, 1, 137, 0.999, 0),
-(120, 2, 138, 0.99, 0),
-(121, 2, 139, 0.95, 0),
-(122, 2, 140, 0.999, 0),
-(123, 1, 141, 0.999, 0),
-(124, 1, 142, 0.999, 0),
-(125, 2, 143, 0.999, 0),
-(126, 1, 144, 0.999, 0),
-(127, 2, 144, 0.999, 0),
-(128, 2, 146, 0.95, 0),
-(129, 2, 148, 0.999, 0),
-(130, 2, 150, 0.999, 0),
-(131, 2, 151, 0.99, 0),
-(132, 2, 152, 0.999, 0),
-(133, 2, 154, 0.99, 0),
-(134, 2, 156, 0.999, 0),
-(135, 2, 157, 0.999, 0),
-(136, 2, 159, 0.99, 0),
-(137, 2, 160, 0.95, 0),
-(138, 2, 161, 0.99, 0),
-(139, 2, 162, 0.999, 0),
-(140, 2, 163, 0.999, 0),
-(141, 2, 164, 0.999, 0),
-(142, 2, 165, 0.999, 0),
-(143, 2, 166, 0.999, 0),
-(144, 2, 167, 0.95, 0),
-(145, 2, 168, 0.999, 0),
-(146, 2, 169, 0.999, 0),
-(147, 2, 170, 0.99, 0),
-(148, 2, 171, 0.999, 0),
-(149, 2, 172, 0.99, 0),
-(150, 2, 173, 0.99, 0),
-(151, 2, 174, 0.99, 0),
-(152, 2, 175, 0.99, 0),
-(153, 1, 176, 0.999, 0),
-(154, 2, 177, 0.999, 0),
-(155, 2, 178, 0.99, 0),
-(156, 1, 179, 0.999, 0),
-(157, 2, 181, 0.999, 0),
-(158, 2, 183, 0.99, 0),
-(159, 1, 182, 0.99, 0),
-(160, 1, 184, 0.99, 0),
-(161, 2, 185, 0.99, 0),
-(162, 1, 186, 0.999, 0),
-(163, 2, 187, 0.999, 0),
-(164, 1, 188, 0.999, 0),
-(165, 1, 189, 0.99, 0),
-(166, 2, 190, 0.999, 0),
-(167, 2, 191, 0.999, 0),
-(168, 1, 192, 0.999, 0),
-(169, 2, 193, 0.999, 0),
-(170, 1, 203, 0.99, 0),
-(171, 2, 204, 0.99, 0),
-(172, 1, 205, 0.999, 0),
-(173, 2, 206, 0.999, 0),
-(174, 2, 207, 0.999, 0),
-(175, 2, 208, 0.999, 0),
-(176, 2, 209, 0.99, 0),
-(177, 2, 210, 0.999, 0),
-(178, 2, 211, 0.99, 0),
-(179, 2, 212, 0.95, 0),
-(180, 2, 213, 0.99, 0),
-(181, 2, 214, 0.99, 0),
-(182, 2, 215, 0.999, 0),
-(183, 2, 216, 0.999, 0),
-(184, 2, 217, 0.95, 0),
-(185, 2, 218, 0.95, 0),
-(186, 2, 219, 0.95, 0),
-(187, 2, 220, 0.95, 0),
-(188, 2, 221, 0.95, 0),
-(189, 2, 222, 0.95, 0),
-(190, 2, 223, 0.95, 0),
-(191, 2, 224, 0.95, 0),
-(192, 2, 225, 0.95, 0),
-(193, 2, 226, 0.95, 0),
-(194, 2, 227, 0.95, 0),
-(195, 2, 228, 0.95, 0),
-(196, 2, 229, 0.95, 0),
-(197, 2, 230, 0.95, 0),
-(198, 2, 231, 0.95, 0),
-(199, 2, 232, 0.95, 0),
-(200, 2, 233, 0.95, 0),
-(201, 2, 234, 0.95, 0),
-(202, 2, 235, 0.95, 0),
-(203, 2, 236, 0.95, 0),
-(204, 2, 237, 0.95, 0);
+INSERT INTO `form_qstframework_diseases_sympt_opt` (`id`, `id_diseases`, `id_sympt_opt`, `weight`, `py`, `pn`) VALUES
+(1, 2, 1, 0.999, 0, 0),
+(2, 1, 2, 0.999, 0, 0),
+(3, 2, 4, 0.95, 0, 0),
+(4, 2, 6, 0.99, 0, 0),
+(5, 2, 5, 0.99, 0, 0),
+(6, 2, 7, 0.999, 0, 0),
+(7, 1, 9, 0.999, 0, 0),
+(8, 1, 10, 0.999, 0, 0),
+(9, 1, 13, 0.999, 0, 0),
+(10, 2, 14, 0.999, 0, 0),
+(11, 2, 15, 0.999, 0, 0),
+(12, 2, 18, 0.999, 0, 0),
+(14, 2, 19, 0.99, 0, 0),
+(15, 1, 20, 0.999, 0, 0),
+(16, 2, 21, 0.999, 0, 0),
+(17, 2, 22, 0.95, 0, 0),
+(18, 2, 23, 0.999, 0, 0),
+(19, 2, 24, 0.99, 0, 0),
+(20, 2, 25, 0.99, 0, 0),
+(22, 2, 26, 0.99, 0, 0),
+(23, 2, 28, 0.99, 0, 0),
+(24, 2, 29, 0.999, 0, 0),
+(25, 1, 30, 0.999, 0, 0),
+(26, 2, 31, 0.999, 0, 0),
+(29, 2, 34, 0.999, 0, 0),
+(30, 2, 35, 0.999, 0, 0),
+(31, 2, 38, 0.999, 0, 0),
+(32, 1, 36, 0.999, 0, 0),
+(33, 1, 37, 0.999, 0, 0),
+(34, 2, 39, 0.95, 0, 0),
+(35, 2, 43, 0.999, 0, 0),
+(36, 2, 42, 0.999, 0, 0),
+(37, 1, 41, 0.999, 0, 0),
+(38, 1, 45, 0.999, 0, 0),
+(39, 2, 46, 0.95, 0, 0),
+(40, 2, 47, 0.999, 0, 0),
+(41, 2, 48, 0.99, 0, 0),
+(42, 1, 50, 0.999, 0, 0),
+(43, 2, 51, 0.999, 0, 0),
+(44, 2, 52, 0.999, 0, 0),
+(45, 2, 53, 0.999, 0, 0),
+(46, 2, 54, 0.999, 0, 0),
+(47, 1, 55, 0.99, 0, 0),
+(48, 2, 56, 0.95, 0, 0),
+(49, 2, 57, 0.99, 0, 0),
+(50, 2, 59, 0.99, 0, 0),
+(51, 1, 61, 0.999, 0, 0),
+(52, 2, 62, 0.999, 0, 0),
+(53, 2, 63, 0.999, 0, 0),
+(54, 1, 64, 0.999, 0, 0),
+(55, 2, 65, 0.99, 0, 0),
+(56, 2, 66, 0.999, 0, 0),
+(57, 1, 67, 0.999, 0, 0),
+(58, 1, 68, 0.999, 0, 0),
+(59, 1, 69, 0.99, 0, 0),
+(60, 2, 70, 0.999, 0, 0),
+(61, 1, 71, 0.999, 0, 0),
+(62, 1, 72, 0.999, 0, 0),
+(63, 2, 73, 0.999, 0, 0),
+(64, 1, 74, 0.999, 0, 0),
+(65, 2, 75, 0.999, 0, 0),
+(66, 2, 76, 0.999, 0, 0),
+(67, 1, 77, 0.999, 0, 0),
+(68, 1, 78, 0.999, 0, 0),
+(69, 1, 79, 0.95, 0, 0),
+(70, 1, 80, 0.95, 0, 0),
+(71, 2, 81, 0.999, 0, 0),
+(72, 2, 82, 0.999, 0, 0),
+(73, 1, 83, 0.95, 0, 0),
+(74, 2, 84, 0.95, 0, 0),
+(75, 2, 87, 0.999, 0, 0),
+(76, 2, 86, 0.999, 0, 0),
+(77, 1, 85, 0.999, 0, 0),
+(78, 1, 88, 0.99, 0, 0),
+(79, 2, 89, 0.99, 0, 0),
+(80, 2, 90, 0.999, 0, 0),
+(81, 1, 91, 0.999, 0, 0),
+(82, 2, 94, 0.95, 0, 0),
+(83, 1, 92, 0.999, 0, 0),
+(84, 2, 93, 0.99, 0, 0),
+(85, 2, 96, 0.999, 0, 0),
+(86, 2, 97, 0.999, 0, 0),
+(87, 2, 98, 0.95, 0, 0),
+(88, 1, 99, 0.95, 0, 0),
+(89, 2, 100, 0.95, 0, 0),
+(90, 1, 101, 0.999, 0, 0),
+(91, 2, 102, 0.999, 0, 0),
+(92, 1, 103, 0.99, 0, 0),
+(93, 1, 104, 0.99, 0, 0),
+(94, 2, 105, 0.999, 0, 0),
+(95, 2, 108, 0.95, 0, 0),
+(96, 2, 109, 0.999, 0, 0),
+(97, 1, 110, 0.999, 0, 0),
+(98, 2, 111, 0.999, 0, 0),
+(99, 2, 112, 0.95, 0, 0),
+(100, 1, 113, 0.99, 0, 0),
+(101, 2, 114, 0.99, 0, 0),
+(102, 1, 115, 0.999, 0, 0),
+(103, 2, 116, 0.999, 0, 0),
+(104, 1, 118, 0.999, 0, 0),
+(105, 2, 119, 0.999, 0, 0),
+(106, 2, 120, 0.95, 0, 0),
+(107, 1, 121, 0.95, 0, 0),
+(108, 1, 122, 0.999, 0, 0),
+(109, 2, 123, 0.999, 0, 0),
+(110, 2, 124, 0.999, 0, 0),
+(111, 2, 125, 0.999, 0, 0),
+(112, 1, 128, 0.999, 0, 0),
+(113, 1, 130, 0.99, 0, 0),
+(114, 2, 132, 0.999, 0, 0),
+(115, 1, 133, 0.999, 0, 0),
+(116, 1, 134, 0.999, 0, 0),
+(117, 2, 135, 0.999, 0, 0),
+(118, 2, 136, 0.99, 0, 0),
+(119, 1, 137, 0.999, 0, 0),
+(120, 2, 138, 0.99, 0, 0),
+(121, 2, 139, 0.95, 0, 0),
+(122, 2, 140, 0.999, 0, 0),
+(123, 1, 141, 0.999, 0, 0),
+(124, 1, 142, 0.999, 0, 0),
+(125, 2, 143, 0.999, 0, 0),
+(126, 1, 144, 0.999, 0, 0),
+(127, 2, 144, 0.999, 0, 0),
+(128, 2, 146, 0.95, 0, 0),
+(129, 2, 148, 0.999, 0, 0),
+(130, 2, 150, 0.999, 0, 0),
+(131, 2, 151, 0.99, 0, 0),
+(132, 2, 152, 0.999, 0, 0),
+(133, 2, 154, 0.99, 0, 0),
+(134, 2, 156, 0.999, 0, 0),
+(135, 2, 157, 0.999, 0, 0),
+(136, 2, 159, 0.99, 0, 0),
+(137, 2, 160, 0.95, 0, 0),
+(138, 2, 161, 0.99, 0, 0),
+(139, 2, 162, 0.999, 0, 0),
+(140, 2, 163, 0.999, 0, 0),
+(141, 2, 164, 0.999, 0, 0),
+(142, 2, 165, 0.999, 0, 0),
+(143, 2, 166, 0.999, 0, 0),
+(144, 2, 167, 0.95, 0, 0),
+(145, 2, 168, 0.999, 0, 0),
+(146, 2, 169, 0.999, 0, 0),
+(147, 2, 170, 0.99, 0, 0),
+(148, 2, 171, 0.999, 0, 0),
+(149, 2, 172, 0.99, 0, 0),
+(150, 2, 173, 0.99, 0, 0),
+(151, 2, 174, 0.99, 0, 0),
+(152, 2, 175, 0.99, 0, 0),
+(153, 1, 176, 0.999, 0, 0),
+(154, 2, 177, 0.999, 0, 0),
+(155, 2, 178, 0.99, 0, 0),
+(156, 1, 179, 0.999, 0, 0),
+(157, 2, 181, 0.999, 0, 0),
+(158, 2, 183, 0.99, 0, 0),
+(159, 1, 182, 0.99, 0, 0),
+(160, 1, 184, 0.99, 0, 0),
+(161, 2, 185, 0.99, 0, 0),
+(162, 1, 186, 0.999, 0, 0),
+(163, 2, 187, 0.999, 0, 0),
+(164, 1, 188, 0.999, 0, 0),
+(165, 1, 189, 0.99, 0, 0),
+(166, 2, 190, 0.999, 0, 0),
+(167, 2, 191, 0.999, 0, 0),
+(168, 1, 192, 0.999, 0, 0),
+(169, 2, 193, 0.999, 0, 0),
+(170, 1, 203, 0.99, 0, 0),
+(171, 2, 204, 0.99, 0, 0),
+(172, 1, 205, 0.999, 0, 0),
+(173, 2, 206, 0.999, 0, 0),
+(174, 2, 207, 0.999, 0, 0),
+(175, 2, 208, 0.999, 0, 0),
+(176, 2, 209, 0.99, 0, 0),
+(177, 2, 210, 0.999, 0, 0),
+(178, 2, 211, 0.99, 0, 0),
+(179, 2, 212, 0.95, 0, 0),
+(180, 2, 213, 0.99, 0, 0),
+(181, 2, 214, 0.99, 0, 0),
+(182, 2, 215, 0.999, 0, 0),
+(183, 2, 216, 0.999, 0, 0),
+(184, 2, 217, 0.95, 0, 0),
+(185, 2, 218, 0.95, 0, 0),
+(186, 2, 219, 0.95, 0, 0),
+(187, 2, 220, 0.95, 0, 0),
+(188, 2, 221, 0.95, 0, 0),
+(189, 2, 222, 0.95, 0, 0),
+(190, 2, 223, 0.95, 0, 0),
+(191, 2, 224, 0.95, 0, 0),
+(192, 2, 225, 0.95, 0, 0),
+(193, 2, 226, 0.95, 0, 0),
+(194, 2, 227, 0.95, 0, 0),
+(195, 2, 228, 0.95, 0, 0),
+(196, 2, 229, 0.95, 0, 0),
+(197, 2, 230, 0.95, 0, 0),
+(198, 2, 231, 0.95, 0, 0),
+(199, 2, 232, 0.95, 0, 0),
+(200, 2, 233, 0.95, 0, 0),
+(201, 2, 234, 0.95, 0, 0),
+(202, 2, 235, 0.95, 0, 0),
+(203, 2, 236, 0.95, 0, 0),
+(204, 2, 237, 0.95, 0, 0);
 
 -- --------------------------------------------------------
 --
@@ -256,6 +286,7 @@ INSERT INTO `form_qstframework_diseases_sympt_opt` (`id`, `id_diseases`, `id_sym
 
 CREATE TABLE IF NOT EXISTS `form_qstframework_sympt_category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_form` int(11) DEFAULT '0',
   `cat_name` varchar(100) COLLATE utf8_general_ci DEFAULT NULL,
   `cat_notes` varchar(150) COLLATE utf8_general_ci DEFAULT NULL,
   `is_selected` tinyint(4) NOT NULL DEFAULT '1',
@@ -267,13 +298,13 @@ CREATE TABLE IF NOT EXISTS `form_qstframework_sympt_category` (
 --
 
 INSERT INTO `form_qstframework_sympt_category` (`id`, `cat_name`, `cat_notes`, `is_selected`) VALUES
-(1, 'Анкетні дані вагітної', NULL, 1),
-(2, 'Стан при поступленні в стаціонар', NULL, 1),
-(3, 'Перебіг попередніх пологів', NULL, 1),
-(4, 'Анамнез вагітної', NULL, 1),
-(5, 'Статеве життя та гінекологічні захворювання', NULL, 1),
-(6, 'Ускладнення цієї вагітності', NULL, 1),
-(7, 'Результати обстеження', NULL, 1);
+(1, 1, 'Анкетні дані вагітної', NULL, 1),
+(2, 1, 'Стан при поступленні в стаціонар', NULL, 1),
+(3, 1, 'Перебіг попередніх пологів', NULL, 1),
+(4, 1, 'Анамнез вагітної', NULL, 1),
+(5, 1, 'Статеве життя та гінекологічні захворювання', NULL, 1),
+(6, 1, 'Ускладнення цієї вагітності', NULL, 1),
+(7, 1, 'Результати обстеження', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -287,17 +318,17 @@ CREATE TABLE IF NOT EXISTS `form_qstframework_symptoms` (
   `symp_notes` varchar(100) COLLATE utf8_general_ci DEFAULT NULL,
   `id_order` int(11) DEFAULT '0',
   `id_category` int(11) DEFAULT '1',
-  `is_multi` tinyint(4) NOT NULL DEFAULT '0',
+  `is_typeof` tinyint(4) NOT NULL DEFAULT '0',
   `is_selected` tinyint(4) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
-  KEY `symptoms_symptomsid_category_ndx` (`id_category`)
+  KEY `qstframework_symptoms_id_category_ndx` (`id_category`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=73 ;
 
 --
 -- Дамп даних таблиці `form_qstframework_symptoms`
 --
 
-INSERT INTO `form_qstframework_symptoms` (`id`, `symp_name`, `symp_notes`, `id_order`, `id_category`, `is_multi`) VALUES
+INSERT INTO `form_qstframework_symptoms` (`id`, `symp_name`, `symp_notes`, `id_order`, `id_category`, `is_typeof`) VALUES
 (1, '1.1. Вік жінки', NULL, 1, 1, 0),
 (2, '1.2. Сезон року', NULL, 2, 1, 0),
 (3, '1.3. Адреса проживання', NULL, 3, 1, 0),
@@ -385,8 +416,7 @@ CREATE TABLE IF NOT EXISTS `form_qstframework_sympt_options` (
   `id_order` int(11) DEFAULT '0',
   `is_selected` tinyint(4) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
-  KEY `sympt_options_id_symptom_ndx` (`id_symptom`),
-  KEY `sympt_options_symptomssympt_options_ndx` (`id_symptom`)
+  KEY `qstframework_sympt_options_id_symptom_ndx` (`id_symptom`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=238 ;
 
 --
@@ -635,7 +665,7 @@ INSERT INTO `form_qstframework_sympt_options` (`id`, `id_symptom`, `opt_name`, `
 -- Table structure for table `form_qstframework_patient_exam`
 --
 
-CREATE TABLE IF NOT EXISTS `form_qstframework_patient_exam` (
+CREATE TABLE IF NOT EXISTS `form_qstframework_instance` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   date datetime default NULL,
   `pid` bigint(20) DEFAULT '0',
@@ -646,15 +676,6 @@ CREATE TABLE IF NOT EXISTS `form_qstframework_patient_exam` (
   `encounter` bigint(20) DEFAULT NULL,
   `createuser` varchar(255) DEFAULT NULL,
   `createdate` datetime DEFAULT NULL,
-  `is_firstpregnancy` tinyint(4) DEFAULT NULL,
-  `expect_disease` varchar(255) DEFAULT NULL,
-  `diseases` text CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
-  `id_finaldisease` int(11) DEFAULT '0',
-  `finaldisease` varchar(255) DEFAULT NULL,
-  `finaldisease_icd10` varchar(255) DEFAULT NULL,
-  `id_decisiontree_decease` int(11) DEFAULT NULL,
-  `diseases_tree` text CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
-  `decisiontree_img` text CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1 ;
 
@@ -665,25 +686,26 @@ CREATE TABLE IF NOT EXISTS `form_qstframework_patient_exam` (
 -- Table structure for table `form_qstframework_symptopt_by_patient`
 --
 
-CREATE TABLE IF NOT EXISTS `form_qstframework_symptopt_by_patient` (
+CREATE TABLE IF NOT EXISTS `form_qstframework_symptopt_patient_exam_form_data` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `id_exam` bigint(20) DEFAULT '0',
+  `id_form` bigint(20) DEFAULT '0',
   `pid` bigint(20) DEFAULT '0',
   `user` varchar(255) default NULL,
+  `id_sympt_cat` int(11) DEFAULT '0',
   `id_symptom` bigint(20) DEFAULT '0',
   `id_sympt_opt` bigint(20) DEFAULT '0',
   `id_diseases` int(11) DEFAULT '0',
   `py` float DEFAULT '0',
   `pn` float DEFAULT '0',
-  `id_sympt_cat` int(11) DEFAULT '0',
+  `weight` int(11) DEFAULT '0',  
   `id_order` int(11) DEFAULT '0',
   PRIMARY KEY (`id`),
-  KEY `symptoms_by_patient_id_disease_ndx` (`id_diseases`),
-  KEY `symptoms_by_patient_id_exam_ndx` (`id_exam`),
-  KEY `symptoms_by_patient_id_patient_ndx` (`pid`),
-  KEY `symptoms_by_patient_id_sympt_cat_ndx` (`id_sympt_cat`),
-  KEY `symptoms_by_patient_id_sympt_opt_ndx` (`id_sympt_opt`),
-  KEY `symptoms_by_patient_id_symptom_ndx` (`id_symptom`)
+  KEY `qstframework_symptoms_by_patient_id_disease_ndx` (`id_diseases`),
+  KEY `qstframework_symptoms_by_patient_id_exam_ndx` (`id_form`),
+  KEY `qstframework_symptoms_by_patient_id_patient_ndx` (`pid`),
+  KEY `qstframework_symptoms_by_patient_id_sympt_cat_ndx` (`id_sympt_cat`),
+  KEY `qstframework_symptoms_by_patient_id_sympt_opt_ndx` (`id_sympt_opt`),
+  KEY `qstframework_symptoms_by_patient_id_symptom_ndx` (`id_symptom`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1 ;
 
 
@@ -697,8 +719,14 @@ CREATE TABLE IF NOT EXISTS `form_qstframework_symptopt_by_patient` (
 --
 -- Constraints for table `form_qstframework_symptopt_by_patient`
 --
-ALTER TABLE `form_qstframework_symptopt_by_patient`
-  ADD CONSTRAINT `form_qstframework_symptopt_by_patient_ibfk_1` FOREIGN KEY (`id_exam`) REFERENCES `form_qstframework_patient_exam` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `form_qstframework_symptopt_patient_exam_form_data`
+  ADD CONSTRAINT `form_qstframework_symptopt_by_patient_ibfk_1` FOREIGN KEY (`id_form`) REFERENCES `form_qstframework_patient_exam` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  
+--
+-- Constraints for table `form_qstframework_diseases`
+--
+ALTER TABLE `form_qstframework_diseases`
+  ADD CONSTRAINT `form_qstframework_diseases_ibfk_1` FOREIGN KEY (`id_form`) REFERENCES `form_qstframework_patient_exam_forms` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;  
   
 --
 -- Constraints for table `form_qstframework_diseases_sympt_opt`
@@ -706,6 +734,12 @@ ALTER TABLE `form_qstframework_symptopt_by_patient`
 ALTER TABLE `form_qstframework_diseases_sympt_opt`
   ADD CONSTRAINT `form_diseases_sympt_opt_ibfk_1` FOREIGN KEY (`id_diseases`) REFERENCES `form_qstframework_diseases` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   ADD CONSTRAINT `form_diseases_sympt_opt_ibfk_2` FOREIGN KEY (`id_sympt_opt`) REFERENCES `form_qstframework_sympt_options` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+--
+-- Constraints for table `form_qstframework_sympt_category`
+--
+ALTER TABLE `form_qstframework_sympt_category`
+  ADD CONSTRAINT `form_qstframework_sympt_category_ibfk_1` FOREIGN KEY (`id_form`) REFERENCES `form_qstframework_patient_exam_forms` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Constraints for table `form_qstframework_symptoms`
